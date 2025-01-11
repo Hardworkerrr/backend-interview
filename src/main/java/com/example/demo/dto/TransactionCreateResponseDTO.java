@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransactionCreateResponseDTO {
 
-    @JsonProperty(value = "transaction_id")
-    private long transactionId;
+  @JsonProperty(value = "transaction_id")
+  private long transactionId;
 }

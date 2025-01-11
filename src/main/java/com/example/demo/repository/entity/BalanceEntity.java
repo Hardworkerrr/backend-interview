@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,49 +19,41 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
+@Getter
 @Entity
 @Table(
-        name = "balance",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "balance_currency_unique", columnNames = {"currency"})
-        }
-)
+    name = "balance",
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "balance_currency_unique",
+          columnNames = {"currency"})
+    })
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class BalanceEntity implements Balance {
 
-    @Id
-    @Getter
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @Getter
-    @Column(name = "amount", precision = 27, scale = 18)
-    private BigDecimal amount;
+  @Column(name = "amount", precision = 27, scale = 18)
+  private BigDecimal amount;
 
-    @Getter
-    @Column(name = "currency", nullable = false)
-    private String currency;
+  @Column(name = "currency", nullable = false)
+  private String currency;
 
-    @Getter
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
-    @Getter
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private LocalDateTime updatedAt;
 
-    public BalanceEntity(
-            @NonNull final String currency
-    ) {
-        this.amount = BigDecimal.ZERO;
-        this.currency = currency;
-    }
+  public BalanceEntity(@NonNull final String currency) {
+    this.amount = BigDecimal.ZERO;
+    this.currency = currency;
+  }
 }

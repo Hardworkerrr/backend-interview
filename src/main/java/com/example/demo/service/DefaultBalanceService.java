@@ -12,11 +12,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DefaultBalanceService implements BalanceService {
 
-    private final BalanceRepository balanceRepository;
+  private final BalanceRepository balanceRepository;
 
-    @Override
-    public Balance getOrCreate(String currency) {
-        return balanceRepository.findByCurrency(currency)
-                .orElseGet(() -> balanceRepository.save(new BalanceEntity(currency)));
-    }
+  @Override
+  public Balance getOrCreate(String currency) {
+    return balanceRepository
+        .findByCurrency(currency)
+        .orElseGet(() -> balanceRepository.save(new BalanceEntity(currency)));
+  }
 }

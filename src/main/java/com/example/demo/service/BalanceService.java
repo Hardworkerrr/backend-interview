@@ -4,5 +4,5 @@ import com.example.demo.model.Balance;
 
 public interface BalanceService {
 
-    Balance getOrCreate(String currency);
+  Balance getOrCreate(String currency);
 }

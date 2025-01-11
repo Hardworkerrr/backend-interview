@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public interface Balance {
 
-    long getId();
+  long getId();
 
-    BigDecimal getAmount();
+  BigDecimal getAmount();
 
-    String getCurrency();
+  String getCurrency();
 }
