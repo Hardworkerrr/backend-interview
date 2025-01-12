@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.example.demo.exception.description;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;

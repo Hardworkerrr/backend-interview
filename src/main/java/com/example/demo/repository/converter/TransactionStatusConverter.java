@@ -2,9 +2,10 @@ package com.example.demo.repository.converter;
 
 import com.example.demo.model.TransactionStatus;
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
+@Converter
 public class TransactionStatusConverter implements AttributeConverter<TransactionStatus, String> {
-  public TransactionStatusConverter() {}
 
   @Override
   public String convertToDatabaseColumn(final TransactionStatus value) {

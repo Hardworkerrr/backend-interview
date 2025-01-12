@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.example.demo.exception.description;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -6,7 +6,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
   ERR001("ERR001", "Parameters validation failed"),
-  ERR002("ERR002", "Constraint key violated");
+  ERR002("ERR002", "Unique constraint violated"),
+  ERR003("ERR003", "Unprocessable operation");
 
   @JsonProperty("code")
   private final String code;

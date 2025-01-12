@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
 import static com.example.demo.util.Constants.REFERENCE_DUPLICATION_EXCEPTION_MESSAGE;
+import static com.example.demo.util.Constants.TRANSACTION_STATUS_UPDATE_EXCEPTION_MESSAGE;
 
 import com.example.demo.exception.ReferenceDuplicationException;
+import com.example.demo.exception.TransactionStatusUpdateException;
 import com.example.demo.model.Balance;
 import com.example.demo.model.Transaction;
+import com.example.demo.model.TransactionStatus;
 import com.example.demo.model.TransactionType;
 import com.example.demo.repository.TransactionRepository;
 import com.example.demo.repository.entity.TransactionEntity;
@@ -43,6 +46,20 @@ public class DefaultTransactionService implements TransactionService {
   }
 
   @Override
+  @Transactional
+  public void updateStatus(long id, TransactionStatus newStatus) {
+    Transaction transaction = get(id);
+    if (transaction instanceof TransactionEntity transactionEntity) {
+      if (transactionStatusIsUpdatable(transactionEntity, newStatus)) {
+        transactionEntity.setStatus(newStatus);
+      } else {
+        throw new TransactionStatusUpdateException(
+            TRANSACTION_STATUS_UPDATE_EXCEPTION_MESSAGE.formatted(id));
+      }
+    }
+  }
+
+  @Override
   public Transaction toSuccess(long id) {
     // TODO implement
     return null;
@@ -57,5 +74,10 @@ public class DefaultTransactionService implements TransactionService {
   @Override
   public Optional<Transaction> find(long id) {
     return transactionRepository.findById(id).map(x -> x);
+  }
+
+  private boolean transactionStatusIsUpdatable(
+      TransactionEntity transaction, TransactionStatus newStatus) {
+    return !transaction.getStatus().equals(newStatus) && !transaction.getStatus().isFinal();
   }
 }

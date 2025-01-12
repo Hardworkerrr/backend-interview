@@ -16,15 +16,12 @@ import jakarta.persistence.UniqueConstraint;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Getter
 @Entity
 @Table(
     name = "transaction",
@@ -35,8 +32,7 @@ import org.hibernate.annotations.UpdateTimestamp;
     })
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@Data
 public class TransactionEntity implements Transaction {
 
   @Id
@@ -51,7 +47,7 @@ public class TransactionEntity implements Transaction {
   private TransactionType type;
 
   @Convert(converter = TransactionStatusConverter.class)
-  @Column(name = "status", nullable = false, updatable = false)
+  @Column(name = "status", nullable = false)
   private TransactionStatus status;
 
   @Column(name = "reference", length = 64, nullable = false, updatable = false)

@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import static com.example.demo.exception.ErrorCode.ERR001;
+import static com.example.demo.exception.description.ErrorCode.ERR001;
 import static com.example.demo.util.Constants.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-import com.example.demo.exception.ExceptionExtension;
+import com.example.demo.exception.description.ExceptionExtension;
 import com.example.demo.exception.RestGenericException;
 import java.util.HashMap;
 import java.util.Map;
