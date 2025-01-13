@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
+import static com.example.demo.messaging.kafka.event.TransactionEvent.Type.CREATED;
+import static com.example.demo.messaging.kafka.event.TransactionEvent.Type.UPDATED;
 import static com.example.demo.model.TransactionType.WITHDRAWAL;
 import static com.example.demo.util.Constants.REFERENCE_DUPLICATION_EXCEPTION_MESSAGE;
 import static com.example.demo.util.Constants.TRANSACTION_STATUS_UPDATE_EXCEPTION_MESSAGE;
 
 import com.example.demo.exception.ReferenceDuplicationException;
 import com.example.demo.exception.TransactionStatusUpdateException;
+import com.example.demo.messaging.kafka.event.TransactionEvent;
 import com.example.demo.model.Balance;
 import com.example.demo.model.Transaction;
 import com.example.demo.model.TransactionStatus;
@@ -18,6 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +35,7 @@ public class DefaultTransactionService implements TransactionService {
   private final TransactionRepository transactionRepository;
   private final Map<TransactionType, TransactionStatusUpdateStrategy>
       transactionStatusUpdateProcessors;
+  private final ApplicationEventPublisher eventPublisher;
 
   @Override
   @Transactional
@@ -50,6 +55,7 @@ public class DefaultTransactionService implements TransactionService {
         balanceService.withdraw(balance, amount);
       }
 
+      eventPublisher.publishEvent(new TransactionEvent(transaction, CREATED));
       return transaction;
     } catch (DataIntegrityViolationException e) {
       throw new ReferenceDuplicationException(
@@ -67,6 +73,7 @@ public class DefaultTransactionService implements TransactionService {
       TransactionStatusUpdateStrategy transactionStatusUpdateProcessor =
           transactionStatusUpdateProcessors.get(transactionEntity.getType());
       transactionStatusUpdateProcessor.updateStatus(transactionEntity, newStatus);
+      eventPublisher.publishEvent(new TransactionEvent(transaction, UPDATED));
     } else {
       throw new TransactionStatusUpdateException(
           TRANSACTION_STATUS_UPDATE_EXCEPTION_MESSAGE.formatted(id));

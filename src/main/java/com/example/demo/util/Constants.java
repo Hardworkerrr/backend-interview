@@ -20,4 +20,8 @@ public class Constants {
   public static final String WITHDRAWAL_TYPE_BEAN_NAME = "WITHDRAWAL";
   public static final String PROCESSORS_CONFIGURATION_FAILED_MESSAGE =
       "Update status processors configuration failed";
+  public static final String FAILED_TO_PUBLISH_TRANSACTION_EVENT_KAFKA_MESSAGE =
+      "Failed to publish transaction event to Kafka";
+  public static final String FAILED_TO_DESERIALIZE_EVENT_KAFKA_MESSAGE =
+      "Failed to process message: {}";
 }

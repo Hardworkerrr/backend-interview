@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-// TODO use it
 @Getter
 @Document("transaction")
 @NoArgsConstructor

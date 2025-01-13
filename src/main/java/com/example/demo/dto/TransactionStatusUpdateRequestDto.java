@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransactionStatusUpdateRequestDto {
 
-    @JsonProperty(value = "newStatus")
-    @NotNull
-    private TransactionStatus newStatus;
+  @JsonProperty(value = "newStatus")
+  @NotNull
+  private TransactionStatus newStatus;
 }
