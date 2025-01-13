@@ -14,4 +14,10 @@ public class Constants {
   public static final String ERROR_CODE = "errorCode";
   public static final String MESSAGE = "message";
   public static final String DESCRIPTION = "description";
+  public static final String PROCESSOR_FOR_TRANSACTION_TYPE_NOT_FOUND_MESSAGE =
+      "Update status processor for transaction type: {}, not found";
+  public static final String DEPOSIT_TYPE_BEAN_NAME = "DEPOSIT";
+  public static final String WITHDRAWAL_TYPE_BEAN_NAME = "WITHDRAWAL";
+  public static final String PROCESSORS_CONFIGURATION_FAILED_MESSAGE =
+      "Update status processors configuration failed";
 }

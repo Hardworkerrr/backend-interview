@@ -1,9 +1,9 @@
 package com.example.demo.exception;
 
-import com.example.demo.exception.description.ExceptionExtension;
-
 import static com.example.demo.exception.description.ErrorCode.ERR002;
 import static org.springframework.http.HttpStatus.CONFLICT;
+
+import com.example.demo.exception.description.ExceptionExtension;
 
 public class ReferenceDuplicationException extends RestGenericException {
 

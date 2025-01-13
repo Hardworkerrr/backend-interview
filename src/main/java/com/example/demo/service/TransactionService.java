@@ -12,10 +12,6 @@ public interface TransactionService {
 
   void updateStatus(long id, TransactionStatus newStatus);
 
-  Transaction toSuccess(long id);
-
-  Transaction toError(long id);
-
   Optional<Transaction> find(long id);
 
   default Transaction get(final long id) {

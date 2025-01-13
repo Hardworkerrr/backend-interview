@@ -4,8 +4,9 @@ import static com.example.demo.exception.description.ErrorCode.ERR001;
 import static com.example.demo.util.Constants.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-import com.example.demo.exception.description.ExceptionExtension;
 import com.example.demo.exception.RestGenericException;
+import com.example.demo.exception.description.ExceptionExtension;
+import jakarta.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,19 @@ public class ExceptionHandlerAdvice {
             MESSAGE,
             ex.getMessage()),
         ex.getHttpStatus());
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<Object> handleValidationExceptions(ConstraintViolationException ex) {
+    Map<String, String> errorsMap = new HashMap<>();
+    ex.getConstraintViolations()
+        .forEach(
+            constraintViolation ->
+                errorsMap.put(
+                    constraintViolation.getPropertyPath().toString(),
+                    constraintViolation.getMessage()));
+    errorsMap.put(ERROR_CODE, ERR001.getCode());
+    errorsMap.put(DESCRIPTION, ERR001.getDescription());
+    return new ResponseEntity<>(errorsMap, BAD_REQUEST);
   }
 }
