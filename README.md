@@ -60,3 +60,5 @@ docker compose up -d
 ## Task
 
 - Check all TODOs in the project make sure that all are implemented or remove it.
+
+# NO TIME FOR WRITING TESTS :(

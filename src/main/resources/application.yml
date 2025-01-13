@@ -11,7 +11,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
         jdbc:
@@ -39,6 +39,7 @@ spring:
     consumer:
       client-id: ${spring.application.name}-consumer
       group-id: ${spring.application.name}-consumer-group
+      topic: "transactions"
       auto-offset-reset: latest
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:

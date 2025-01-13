@@ -13,84 +13,71 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 @Entity
 @Table(
-        name = "transaction",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "transaction_reference_unique", columnNames = {"reference"})
-        }
-)
+    name = "transaction",
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "transaction_reference_unique",
+          columnNames = {"reference"})
+    })
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+@Data
 public class TransactionEntity implements Transaction {
 
-    @Id
-    @Getter
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @Getter
-    @Column(name = "balance_id", nullable = false, updatable = false)
-    private long balanceId;
+  @Column(name = "balance_id", nullable = false, updatable = false)
+  private long balanceId;
 
-    @Getter
-    @Convert(converter = TransactionTypeConverter.class)
-    @Column(name = "type", nullable = false, updatable = false)
-    private TransactionType type;
+  @Convert(converter = TransactionTypeConverter.class)
+  @Column(name = "type", nullable = false, updatable = false)
+  private TransactionType type;
 
-    @Getter
-    @Convert(converter = TransactionStatusConverter.class)
-    @Column(name = "status", nullable = false, updatable = false)
-    private TransactionStatus status;
+  @Convert(converter = TransactionStatusConverter.class)
+  @Column(name = "status", nullable = false)
+  private TransactionStatus status;
 
-    @Getter
-    @Column(name = "reference", length = 64, nullable = false, updatable = false)
-    private String reference;
+  @Column(name = "reference", length = 64, nullable = false, updatable = false)
+  private String reference;
 
-    @Getter
-    @Column(name = "amount", precision = 27, scale = 18)
-    private BigDecimal amount;
+  @Column(name = "amount", precision = 27, scale = 18)
+  private BigDecimal amount;
 
-    @Getter
-    @Column(name = "currency", nullable = false)
-    private String currency;
+  @Column(name = "currency", nullable = false)
+  private String currency;
 
-    @Getter
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
-    @Getter
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private LocalDateTime updatedAt;
 
-    public TransactionEntity(
-            final long balanceId,
-            @NonNull final String reference,
-            @NonNull final TransactionType type,
-            @NonNull final BigDecimal amount,
-            @NonNull final String currency
-    ) {
-        this.balanceId = balanceId;
-        this.reference = reference;
-        this.amount = amount;
-        this.currency = currency;
-        this.type = type;
-        this.status = TransactionStatus.NEW;
-    }
+  public TransactionEntity(
+      final long balanceId,
+      @NonNull final String reference,
+      @NonNull final TransactionType type,
+      @NonNull final BigDecimal amount,
+      @NonNull final String currency) {
+    this.balanceId = balanceId;
+    this.reference = reference;
+    this.amount = amount;
+    this.currency = currency;
+    this.type = type;
+    this.status = TransactionStatus.NEW;
+  }
 }
